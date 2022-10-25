@@ -1,0 +1,68 @@
+<section id="catalog-section">
+
+    {{#with auction}}
+    <h1 class="item">
+        Fishing Boat
+        {{#if isOwner}}
+            <div class="f-right">
+                <a class="action pad-small f-left" href="/auction/{{_id}}/edit">Edit</a>
+                <a class="action pad-small f-left" href="/auction/{{_id}}/delete">Delete</a>
+            </div>
+        {{/if}}
+    </h1>
+    <div class="item padded">
+
+        <div class="layout right large">
+            <div class="col">
+                <img src="{{imageUrl}}" class="img-large">
+            </div>
+
+            <div class="content pad-med">
+
+                <p>In category: <strong>{{category}}</strong></p>
+                <p>{{description}}</p>
+
+                <div class="align-center">
+                    <div>
+                        Current price: $<strong>{{price}}</strong>
+                    </div>
+
+                {{#if isUser}}
+                    {{#if isOwner}}
+                        <div>
+                            {{#if lastBidder}}
+                            Bid by <strong>{{lastBidder.firstName}} {{lastBidder.lastName}}</strong>
+
+                            <a class="action pad-med cta" href="/closedAuction/{{_id}}/close">Close Auction</a>
+
+                            {{else}}
+                            No bids
+                            {{/if}}
+                        </div>
+
+                    {{else}}
+                        {{#if canBid}}
+                        <!-- If current user can place a bid -->
+                        <form class="vertical" method="post" action="/auction/{{_id}}/bid">
+                            <label><span>Bid amount</span><input type="number" name="bidAmount"></label>
+                            <input class="action" type="submit" value="Place bid">
+                        </form>
+                        {{else}}
+                        <!-- If current user is the bidder -->
+                        <div>
+                            You are currently the <strong>highest bidder</strong> for this auction
+                        </div>
+                        {{/if}}
+                    {{/if}}
+                {{/if}}
+
+                </div>
+
+            </div>
+        </div>
+
+        <footer>Listed by {{owner.firstName}} {{owner.lastName}}</footer>
+        {{/with}}
+    </div>
+
+</section>
